@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ]]
 _addon.name='Trusts'
 _addon.author='from20020516'
-_addon.version='1.1'
+_addon.version='1.1.1'
 _addon.commands={'trusts','tru'}
 
 config = require('config')
@@ -89,18 +89,23 @@ windower.register_event('addon command',function(...)
 end)
 
 function save_set(set)
+    if not set then
+        log('Error: No set name provided. Usage: //tru save <setname>')
+        return
+    end
+
     settings.sets[set] = {}
     local trust_ind = 0
     local get_party = windower.ffxi.get_party()
-    for i=1,5 do
+    for i = 1, 5 do
         local trust = get_party['p'..i]
         if trust and trust.mob.spawn_type == 14 then
             trust_ind = trust_ind + 1
-            settings.sets[set][tostring(trust_ind)]=trusts:with('models',trust.mob.models[1])[lang]
+            settings.sets[set][tostring(trust_ind)] = trusts:with('models', trust.mob.models[1])[lang]
         end
     end
     settings:save('all')
-    log('set '..set..' saved.')
+    log('Set "'..set..'" saved.')
 end
 
 function list_sets()
