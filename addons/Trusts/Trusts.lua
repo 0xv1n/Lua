@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ]]
 _addon.name='Trusts'
 _addon.author='from20020516'
-_addon.version='1.1.1'
+_addon.version='1.2'
 _addon.commands={'trusts','tru'}
 
 config = require('config')
@@ -90,7 +90,7 @@ end)
 
 function save_set(set)
     if not set then
-        log('Error: No set name provided. Usage: //tru save <setname>')
+        error('No set name provided. Usage: //tru save <setname>')
         return
     end
 
