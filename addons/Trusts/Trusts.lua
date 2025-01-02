@@ -69,14 +69,7 @@ end)
 windower.register_event('addon command',function(...)
     cmd = {...}
     if cmd[1] == 'help' then
-        local chat = windower.add_to_chat
-        local color = string.color
-        chat(1,'Trusts - Command List:')
-        chat(207,'//tru '..color('save <setname>',166,160)..' --Save trusts in current party.')
-        chat(207,'//tru '..color('<setname>',166,160)..' --Calls trusts you saved.')
-        chat(207,'//tru '..color('list',166,160)..' --Lists your saved sets.')
-        chat(207,'//tru '..color('random',166,160)..' --What\'s your fortune today?')
-        chat(207,'//tru '..color('check',166,160)..' --List of unlearned trusts. gotta catch \'em all!')
+		show_help()
     elseif cmd[1] == 'save' then
         save_set(cmd[2])
     elseif cmd[1] == 'check' then
@@ -88,9 +81,20 @@ windower.register_event('addon command',function(...)
     end
 end)
 
+function show_help()
+    local chat = windower.add_to_chat
+    local color = string.color
+    chat(1,'Trusts - Command List:')
+    chat(207,'//tru '..color('save <setname>',166,160)..' --Save trusts in current party.')
+    chat(207,'//tru '..color('<setname>',166,160)..' --Calls trusts you saved.')
+    chat(207,'//tru '..color('list',166,160)..' --Lists your saved sets.')
+    chat(207,'//tru '..color('random',166,160)..' --What\'s your fortune today?')
+    chat(207,'//tru '..color('check',166,160)..' --List of unlearned trusts. gotta catch \'em all!')
+end
+
 function save_set(set)
     if not set then
-        error('No set name provided. Usage: //tru save <setname>')
+        windower.add_to_chat(207, string.color('No set name provided.', 167)..' //tru '..string.color('save <setname>', 166, 160)..' --Save trusts in current party.')
         return
     end
 
@@ -197,7 +201,7 @@ function call_set(set)
                             table.insert(queue,entity)
                         else
                             table.remove(retr,table.find(retr,party_ind[i]))
-                            error('You aren\'t trusted by '..entity.english..'.')
+                            windower.add_to_chat(207,'You aren\'t trusted by '..entity.english..'.')
                         end
                     else
                         table.remove(retr,table.find(retr,party_ind[i]))
@@ -223,7 +227,7 @@ function call_set(set)
             end
         end
     else
-        error('Unknown set name '..(set or ''))
+        windower.add_to_chat(207,'Unknown set name '..(set or ''))
     end
     --if /retr then wait at least 3secs.
     local delay = (limit - #party_ind) == 0 and math.max(0,settings.wait.retrall + time - os.clock()) or 0
