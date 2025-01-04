@@ -69,7 +69,7 @@ end)
 windower.register_event('addon command',function(...)
     cmd = {...}
     if cmd[1] == 'help' then
-		show_help()
+        show_help()
     elseif cmd[1] == 'save' then
         save_set(cmd[2])
     elseif cmd[1] == 'check' then
